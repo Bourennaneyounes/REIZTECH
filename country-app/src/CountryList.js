@@ -47,75 +47,67 @@ const CountryList = () => {
     sortCountries()
 };
 
-  const applyFilters = () => {
+const applyFilters = () => {
+    // Apply selected filters to the countries list
     let filtered = countries;
-
+  
     if (filterOptions.smallerThanLithuania) {
       const lithuania = countries.find((country) => country.name === 'Lithuania');
-      filtered = countries.filter((country) => country.area < lithuania.area);
+      filtered = filtered.filter((country) => country.area < lithuania.area);
     }
-
+  
     if (filterOptions.inOceaniaRegion) {
-      filtered = countries.filter((country) => country.region === 'Oceania');
+      filtered = filtered.filter((country) => country.region === 'Oceania');
     }
-
+  
     setFilteredCountries(filtered);
   };
+  
 
-  const handleFilterChange = (event) => {
-    const { name, checked } = event.target;
+  const handleFilterChange = (filterName) => {
+    // Update the filter options based on div click
     setFilterOptions((prevOptions) => ({
       ...prevOptions,
-      [name]: checked,
+      [filterName]: !prevOptions[filterName],
     }));
   };
 
   return (
     <div className="container">
       <h1>Country List</h1>
+      <div className="filters-container">
       <div  className="filters">
-        <label>
-          <input
-            type="checkbox"
-            name="smallerThanLithuania"
-            checked={filterOptions.smallerThanLithuania}
-            onChange={handleFilterChange}
-          />
+      <div
+          className={filterOptions.smallerThanLithuania ? 'active' : 'filter'}
+          onClick={() => handleFilterChange('smallerThanLithuania')}
+        >
           Smaller than Lithuania by area
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="inOceaniaRegion"
-            checked={filterOptions.inOceaniaRegion}
-            onChange={handleFilterChange}
-          />
+        </div>
+        <div
+          className={filterOptions.inOceaniaRegion ? 'active' : 'filter'}
+          onClick={() => handleFilterChange('inOceaniaRegion')}
+        >
           In Oceania region
-        </label>
+        </div>
       </div>
+      <div>
       <button onClick={toggleSortOrder}>
         Sort by Name ({sortOrder === 'asc' ? 'Ascending' : 'Descending'})
       </button>
-      <div className="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Country</th>
-            <th>Region</th>
-            <th>Area</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredCountries.map((country) => (
-            <tr key={country.name}>
-              <td>{country.name}</td>
-              <td>{country.region}</td>
-              <td>{country.area}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
       </div>
+      
+      </div>
+     
+      <div className="country-list">
+        {filteredCountries.map((country) => (
+          <div className="country-item" key={country.name}>
+            <div><strong>Country:</strong> {country.name}</div>
+            <div><strong>Region:</strong> {country.region}</div>
+            <div><strong>Area:</strong> {country.area}</div>
+          </div>
+        ))}
+      </div>
+      
     </div>
   );
 };

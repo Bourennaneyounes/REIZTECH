@@ -1,4 +1,5 @@
 .container {
+    background-color: rgb(219, 255, 165);
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -9,16 +10,53 @@
     margin-bottom: 20px;
   }
   
+  .filters-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .active{
+    margin-right: 20px;
+    padding: 10px 10px;
+    background-color: #41d248;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+
   .filters {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+  }
+  .filter{
+    margin-right: 20px;
+    padding: 10px 10px;
+    background-color: #96dd99;
+    color: black;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
   }
   
   .filters label {
     margin-right: 10px;
   }
   
-  .table-container {
+  .country-list {
     overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+
+  }
+
+  .country-item{
+    background-color: #96dd99;
+    margin: 10px 0px ;
+    padding: 0px 10px;
+    border-radius: 9px;
   }
   
   table {
@@ -44,14 +82,14 @@
   
   button {
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #41d248;
+    color: black;
     border: none;
-    border-radius: 4px;
+    border-radius: 15px;
     cursor: pointer;
   }
   
-  button:hover {
+  /* button:hover {
     background-color: #0069d9;
-  }
+  } */
   
