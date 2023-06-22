@@ -11,6 +11,9 @@ const CountryList = () => {
     inOceaniaRegion: false,
   });
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -61,6 +64,7 @@ const applyFilters = () => {
     }
   
     setFilteredCountries(filtered);
+    setCurrentPage(1); // Reset to the first page when filters change
   };
   
 
@@ -71,7 +75,20 @@ const applyFilters = () => {
       [filterName]: !prevOptions[filterName],
     }));
   };
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
+  const getTotalPages = () => {
+    return Math.ceil(filteredCountries.length / itemsPerPage);
+  };
+
+  const paginatedCountries = filteredCountries.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+ 
   return (
     <div className="container">
       <h1>Country List</h1>
@@ -99,7 +116,7 @@ const applyFilters = () => {
       </div>
      
       <div className="country-list">
-        {filteredCountries.map((country) => (
+        {paginatedCountries.map((country) => (
           <div className="country-item" key={country.name}>
             <div><strong>Country:</strong> {country.name}</div>
             <div><strong>Region:</strong> {country.region}</div>
@@ -107,7 +124,21 @@ const applyFilters = () => {
           </div>
         ))}
       </div>
-      
+      <div>
+        <button
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
+          Previous
+        </button>
+        <span>{currentPage}</span>
+        <button
+          disabled={currentPage === getTotalPages()}
+          onClick={() => handlePageChange(currentPage + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

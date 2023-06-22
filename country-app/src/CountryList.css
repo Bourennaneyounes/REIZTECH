@@ -81,7 +81,8 @@
   }
   
   button {
-    padding: 10px 20px;
+    padding: 13px 20px;
+    margin: 0px 20px;
     background-color: #41d248;
     color: black;
     border: none;
