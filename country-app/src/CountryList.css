@@ -1,8 +1,9 @@
 .container {
     background-color: rgb(219, 255, 165);
     max-width: 800px;
-    margin: 0 auto;
+    margin: 50px auto;
     padding: 20px;
+    border-radius: 10px;
   }
   
   h1 {
