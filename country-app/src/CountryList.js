@@ -4,6 +4,11 @@ import axios from 'axios';
 const CountryList = () => {
   const [countries, setCountries] = useState([]);
   const [sortOrder, setSortOrder] = useState('asc');
+  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [filterOptions, setFilterOptions] = useState({
+    smallerThanLithuania: false,
+    inOceaniaRegion: false,
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,25 +25,73 @@ const CountryList = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    applyFilters();
+  }, [countries, filterOptions]);
+
   const sortCountries = () => {
-    const sortedCountries = [...countries].sort((a, b) => {
+    const sortedCountries = [...filteredCountries].sort((a, b) => {
       if (sortOrder === 'asc') {
         return a.name.localeCompare(b.name);
       } else {
         return b.name.localeCompare(a.name);
       }
     });
-    setCountries(sortedCountries);
+    setFilteredCountries(sortedCountries);
   };
+  
 
   const toggleSortOrder = () => {
     setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
     sortCountries()
 };
 
+  const applyFilters = () => {
+    let filtered = countries;
+
+    if (filterOptions.smallerThanLithuania) {
+      const lithuania = countries.find((country) => country.name === 'Lithuania');
+      filtered = countries.filter((country) => country.area < lithuania.area);
+    }
+
+    if (filterOptions.inOceaniaRegion) {
+      filtered = countries.filter((country) => country.region === 'Oceania');
+    }
+
+    setFilteredCountries(filtered);
+  };
+
+  const handleFilterChange = (event) => {
+    const { name, checked } = event.target;
+    setFilterOptions((prevOptions) => ({
+      ...prevOptions,
+      [name]: checked,
+    }));
+  };
+
   return (
     <div>
       <h1>Country List</h1>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            name="smallerThanLithuania"
+            checked={filterOptions.smallerThanLithuania}
+            onChange={handleFilterChange}
+          />
+          Smaller than Lithuania by area
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            name="inOceaniaRegion"
+            checked={filterOptions.inOceaniaRegion}
+            onChange={handleFilterChange}
+          />
+          In Oceania region
+        </label>
+      </div>
       <button onClick={toggleSortOrder}>
         Sort by Name ({sortOrder === 'asc' ? 'Ascending' : 'Descending'})
       </button>
@@ -51,7 +104,7 @@ const CountryList = () => {
           </tr>
         </thead>
         <tbody>
-          {countries.map((country) => (
+          {filteredCountries.map((country) => (
             <tr key={country.name}>
               <td>{country.name}</td>
               <td>{country.region}</td>
