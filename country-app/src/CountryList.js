@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './CountryList.css';
 
 const CountryList = () => {
   const [countries, setCountries] = useState([]);
@@ -70,9 +71,9 @@ const CountryList = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Country List</h1>
-      <div>
+      <div  className="filters">
         <label>
           <input
             type="checkbox"
@@ -95,6 +96,7 @@ const CountryList = () => {
       <button onClick={toggleSortOrder}>
         Sort by Name ({sortOrder === 'asc' ? 'Ascending' : 'Descending'})
       </button>
+      <div className="table-container">
       <table>
         <thead>
           <tr>
@@ -113,6 +115,7 @@ const CountryList = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };
