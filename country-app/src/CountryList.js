@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const CountryList = () => {
   const [countries, setCountries] = useState([]);
+  const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,9 +20,28 @@ const CountryList = () => {
     fetchData();
   }, []);
 
+  const sortCountries = () => {
+    const sortedCountries = [...countries].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    });
+    setCountries(sortedCountries);
+  };
+
+  const toggleSortOrder = () => {
+    setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
+    sortCountries()
+};
+
   return (
     <div>
       <h1>Country List</h1>
+      <button onClick={toggleSortOrder}>
+        Sort by Name ({sortOrder === 'asc' ? 'Ascending' : 'Descending'})
+      </button>
       <table>
         <thead>
           <tr>
