@@ -2,17 +2,27 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CountryList.css';
 
-const CountryList = () => {
-  const [countries, setCountries] = useState([]);
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [filteredCountries, setFilteredCountries] = useState([]);
-  const [filterOptions, setFilterOptions] = useState({
+interface Country {
+  name: string;
+  region: string;
+  area: number;
+}
+
+interface FilterOptions {
+  smallerThanLithuania: boolean;
+  inOceaniaRegion: boolean;
+}
+
+const CountryList: React.FC = () => {
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
     smallerThanLithuania: false,
     inOceaniaRegion: false,
   });
-
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,7 +66,7 @@ const applyFilters = () => {
   
     if (filterOptions.smallerThanLithuania) {
       const lithuania = countries.find((country) => country.name === 'Lithuania');
-      filtered = filtered.filter((country) => country.area < lithuania.area);
+      filtered = filtered.filter((country) => country.area <(lithuania?.area || 0));
     }
   
     if (filterOptions.inOceaniaRegion) {

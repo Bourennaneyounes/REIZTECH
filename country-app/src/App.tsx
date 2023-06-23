@@ -1,7 +1,7 @@
 import React from 'react';
-import CountryList from './CountryList';
+import CountryList from './CountryList.tsx';
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <div className="App">
       <CountryList />
