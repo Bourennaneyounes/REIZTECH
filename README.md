@@ -29,7 +29,7 @@ This is a web application that displays information about countries using data f
 2. Navigate to the project directory:
 
    ```bash
-   cd REIZTECH
+   cd country-app
    ```
 
 3. Install the dependencies:
