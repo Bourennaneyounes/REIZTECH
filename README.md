@@ -1,4 +1,3 @@
-Certainly! Here's an example of a README file for the project we were working on:
 
 ```markdown
 # Country App
